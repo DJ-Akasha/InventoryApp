@@ -25,14 +25,44 @@
     <!-- Label for editor overflow menu option that deletes the current pet [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
 
-    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
-    <string name="category_overview">Overview</string>
+    <!-- Label for book name category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_book">Book</string>
 
-    <!-- Label for gender information in the editor [CHAR LIMIT=30] -->
-    <string name="category_gender">Gender</string>
+    <!-- Label for genre information in the editor [CHAR LIMIT=30] -->
+    <string name="category_genre">Genre</string>
 
-    <!-- Label for measurement information in the editor [CHAR LIMIT=30] -->
-    <string name="category_measurement">Measurement</string>
+    <!-- Label for price information in the editor [CHAR LIMIT=30] -->
+    <string name="category_price">Price</string>
+
+    <!-- Label for price information in the editor [CHAR LIMIT=30] -->
+    <string name="category_quantity">Quantity</string>
+
+    <!-- Label for supplier information in the editor [CHAR LIMIT=30] -->
+    <string name="category_supplier">Supplier Information</string>
+
+    <!-- Label for dropdown menu option if the book's genre is unknown [CHAR LIMIT=20] -->
+    <string name="genre_unknown">Unknown</string>
+
+    <!-- Label for dropdown menu option if the book genre is Science Fiction [CHAR LIMIT=20] -->
+    <string name="genre_sci_fi">Science Fiction</string>
+
+    <!-- Label for dropdown menu option if the book genre is Fantasy [CHAR LIMIT=20] -->
+    <string name="genre_fantasy">Fantasy</string>
+
+    <!-- Label for dropdown menu option if the book genre is Drama [CHAR LIMIT=20] -->
+    <string name="genre_drama">Drama</string>
+
+    <!-- Label for dropdown menu option if the book genre is Action and Adventure [CHAR LIMIT=20] -->
+    <string name="genre_action_and_adventure">Action and Adventure</string>
+
+    <!-- Label for dropdown menu option if the book genre is Romance [CHAR LIMIT=20] -->
+    <string name="genre_romance">Romance</string>
+
+    <!-- Label for dropdown menu option if the book genre is Horror [CHAR LIMIT=20] -->
+    <string name="genre_horror">Horror</string>
+
+    <!-- Label for dropdown menu option if the book genre is Mystery [CHAR LIMIT=20] -->
+    <string name="genre_mystery">Mystery</string>
 
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_name">Name</string>

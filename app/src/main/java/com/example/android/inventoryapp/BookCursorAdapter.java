@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
+import java.text.NumberFormat;
+
 /**
  * {@link BookCursorAdapter} is an adapter for a list or grid view
  * that uses a {@link Cursor} of book data as its data source. This adapter knows
@@ -61,12 +63,21 @@ public class BookCursorAdapter extends CursorAdapter {
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
 
-        // Read the pet attributes from the Cursor for the current pet.
+        // Read the book attributes from the Cursor for the current book.
         String bookName = cursor.getString(nameColumnIndex);
         String bookPrice = cursor.getString(priceColumnIndex);
 
-        // Update the TextViews with the attributs for the current pet.
+        // Add the local currency to the price.
+        // Found how to do this here - http://www.avajava.com/tutorials/lessons/how-do-i-use-
+        // numberformat-to-format-currencies.html
+        // Author Deron Eriksson written in 2014.
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+
+        // Update the TextViews with the attributs for the current book.
         nameTextView.setText(bookName);
-        summaryTextView.setText(bookPrice);
+        // Solution to the app crashing was found here - https://stackoverflow.com/questions/
+        // 45274167/formating-using-decimalformat-thows-exception-cannot-format-given-object-as-a
+        // Author davidxxx July 24th, 2017.
+        summaryTextView.setText(format.format(Double.valueOf(bookPrice)));
     }
 }

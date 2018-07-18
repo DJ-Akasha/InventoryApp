@@ -17,18 +17,22 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
+        <!-- Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from
+        <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by
+        <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0"
+        target="_blank">CC 3.0 BY</a> -->
         <ImageView
-            android:id="@+id/empty_shelter_image"
+            android:id="@+id/empty_bookshelf_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_launcher_background"/>
+            android:src="@drawable/bookshelf" />
 
         <TextView
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/empty_shelter_image"
+            android:layout_below="@+id/empty_bookshelf_image"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"

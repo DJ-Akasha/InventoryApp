@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
@@ -18,6 +19,11 @@ public class BookProvider extends ContentProvider {
 
     /** Tag for the log messages. */
     public static final String LOG_TAG = BookProvider.class.getSimpleName();
+
+    /**
+     * Database helper object.
+     */
+    private BookDbHelper mDbHelper;
 
     /** URI matcher code for the content URI for the pets table. */
     private static final int BOOKS = 100;
@@ -35,15 +41,19 @@ public class BookProvider extends ContentProvider {
         sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS + "/#", BOOKS_ID);
     }
 
-    /** Database helper object. */
-    private BookDbHelper mDbHelper;
-
+    /**
+     * Initialize the provider and the database helper object.
+     */
     @Override
     public boolean onCreate() {
         mDbHelper = new BookDbHelper(getContext());
         return true;
     }
 
+    /**
+     * Perform the query for the given URI. Use the given projection, selection, selection arguments,
+     * and sort order.
+     */
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
@@ -60,17 +70,19 @@ public class BookProvider extends ContentProvider {
                 // For the BOOKS code, query the books table directly with the given
                 // projection, selection, selection arguments, and sort order. The cursor
                 // could contain multiple rows of the pets table.
-                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
                 break;
             case BOOKS_ID:
                 // For the BOOKS_ID code, extract out the ID from the URI.
                 selection = BookEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
 
-                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
                 break;
-                default:
-                    throw new IllegalArgumentException("Cannot query unknown URI " + uri);
+            default:
+                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
         // Set notification URI on the Cursor, so we know what content URI the Cursor
@@ -119,12 +131,18 @@ public class BookProvider extends ContentProvider {
 
         // Check that the name is not null.
         String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-        if (name == null) {
+        if (TextUtils.isEmpty(name)) { // This was (name == null) not sure why ????????????????????
             throw new IllegalArgumentException("Book requires a name");
         }
 
+        // Check that the genre is valid
+        Integer genre = values.getAsInteger(BookEntry.COLUMN_PRODUCT_GENRE);
+        if (genre == null || !BookEntry.isValidGenre(genre)) {
+            throw new IllegalArgumentException("Book requires valid genre");
+        }
+
         // Check that the price is greater than or equal to 0.
-        Integer price = values.getAsInteger(BookEntry.COLUMN_PRODUCT_PRICE);
+        Double price = values.getAsDouble(BookEntry.COLUMN_PRODUCT_PRICE);
         if (price != null && price < 0){
             throw new IllegalArgumentException("Book requires a valid price");
         }
@@ -137,7 +155,7 @@ public class BookProvider extends ContentProvider {
 
         // Check that the name is not null.
         String supplierName = values.getAsString(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
-        if (supplierName == null) {
+        if (TextUtils.isEmpty(supplierName)) { // this was (supplierName == null)  not sure why ????????????????????
             throw new IllegalArgumentException("Book requires a supplier name");
         }
 
@@ -150,7 +168,7 @@ public class BookProvider extends ContentProvider {
         long id = database.insert(BookEntry.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
-            Log.e(LOG_TAG, "insertPet: Failed to insert row for " + uri);
+            Log.e(LOG_TAG, "insertBook: Failed to insert row for " + uri);
             return null;
         }
 
@@ -165,7 +183,8 @@ public class BookProvider extends ContentProvider {
      * Update the data at the given selection and selection arguments, with the new ContentValues.
      */
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+    public int update(Uri uri, ContentValues contentValues, String selection,
+                      String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
@@ -193,10 +212,20 @@ public class BookProvider extends ContentProvider {
             }
         }
 
+        // If the {@link BookEntry#COLUMN_PRODUCT_GENRE} key is present,
+        // check that the genre value is valid.
+        if (values.containsKey(BookEntry.COLUMN_PRODUCT_GENRE)) {
+            Integer genre = values.getAsInteger(BookEntry.COLUMN_PRODUCT_GENRE);
+            if (genre == null || !BookEntry.isValidGenre(genre)) {
+                throw new IllegalArgumentException("Book requires valid genre");
+            }
+        }
+
         // If the {@link PetEntry#COLUMN_PRODUCT_PRICE} key is present,
         // check that the price value is valid.
+
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_PRICE)) {
-            Integer price = values.getAsInteger(BookEntry.COLUMN_PRODUCT_PRICE);
+            Double price = values.getAsDouble(BookEntry.COLUMN_PRODUCT_PRICE);
             if (price != null && price < 0) {
                 throw new IllegalArgumentException("Book requires valid price");
             }
@@ -217,15 +246,6 @@ public class BookProvider extends ContentProvider {
             String supplierName = values.getAsString(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
             if (supplierName == null) {
                 throw new IllegalArgumentException("Book requires a supplier's name");
-            }
-        }
-
-        // If the {@link PetEntry#COLUMN_PRODUCT_SUPPLIER_PHONE} key is present,
-        // check that the supplier phone number value is valid.
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE)) {
-            String supplierPhone = values.getAsString(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
-            if (supplierPhone == null) {
-                throw new IllegalArgumentException("Book requires a supplier's phone");
             }
         }
 

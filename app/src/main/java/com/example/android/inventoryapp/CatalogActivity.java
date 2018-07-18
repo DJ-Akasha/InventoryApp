@@ -48,7 +48,7 @@ public class CatalogActivity extends AppCompatActivity implements
         });
 
         // Find the ListView which will be populated with the book data.
-        ListView bookListView = findViewById(R.id.list);
+        final ListView bookListView = findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
@@ -87,7 +87,8 @@ public class CatalogActivity extends AppCompatActivity implements
         // and Harry Potter book product details are the values.
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Wyrd Sisters");
-        values.put(BookEntry.COLUMN_PRODUCT_PRICE, 5);
+        values.put(BookEntry.COLUMN_PRODUCT_GENRE, BookEntry.GENRE_FANTASY);
+        values.put(BookEntry.COLUMN_PRODUCT_PRICE, 5.99);
         values.put(BookEntry.COLUMN_PRODUCT_QUANTITY, 15);
         values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME, "Waterstones");
         values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "0208555555");
@@ -133,7 +134,7 @@ public class CatalogActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // Define a projection that specifies the columns from the table we care about.
-        String[] projection = {
+        String[] projection = new String[]{
                 BookEntry._ID,
                 BookEntry.COLUMN_PRODUCT_NAME,
                 BookEntry.COLUMN_PRODUCT_PRICE };

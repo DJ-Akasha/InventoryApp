@@ -17,12 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
-import java.text.NumberFormat;
 
 /**
  * Allows user to create a new book or edit an existing one.
@@ -63,6 +65,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      * EditText field to enter the product's supplier phone number.
      */
     private EditText mSupplierPhoneEditText;
+
+    /**
+     * EditText field to enter the book's genre
+     */
+    private Spinner mGenreSpinner;
+
+    /**
+     * Gender of the pet. The possible values are in the PetContract.java file:
+     * {@link BookEntry#GENRE_UNKNOWN},
+     * {@link BookEntry#GENRE_FANTASY},
+     * {@link BookEntry#GENRE_SCI_FI}
+     * {@link BookEntry#GENRE_MYSTERY},
+     * {@link BookEntry#GENRE_ROMANCE},
+     * {@link BookEntry#GENRE_HORROR},
+     * {@link BookEntry#GENRE_ACTION_AND_ADVENTURE}
+     * {@link BookEntry#GENRE_DRAMA}.
+     */
+    private int mGenre = BookEntry.GENRE_UNKNOWN;
 
     /**
      * Boolean flag that keeps track of whether the pet has been edited (true) or not (false).
@@ -115,6 +135,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText = findViewById(R.id.edit_book_quantity);
         mSupplierNameEditText = findViewById(R.id.edit_supplier_name);
         mSupplierPhoneEditText = findViewById(R.id.edit_book_supplier_phone);
+        mGenreSpinner = findViewById(R.id.spinner_genre);
 
         // Setup onTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -124,6 +145,58 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+        mGenreSpinner.setOnTouchListener(mTouchListener);
+
+        setupSpinner();
+    }
+
+    /**
+     * Setup the dropdown spinner that allows the user to select the genre of the book.
+     */
+    private void setupSpinner() {
+        // Create adapter for the spinner. The list options are from the String array and
+        // the spinner will use the dafault layout.
+        ArrayAdapter genreSpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_genre_options, android.R.layout.simple_spinner_item);
+
+        // Specify the dropdown layout style - simple list view with 1 item per line
+        genreSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+        // Apply the adapter to the spinner
+        mGenreSpinner.setAdapter(genreSpinnerAdapter);
+
+        // Set the integer mGenre to the constant values.
+        mGenreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.genre_fantasy))) {
+                        mGenre = BookEntry.GENRE_FANTASY;
+                    } else if (selection.equals(getString(R.string.genre_sci_fi))) {
+                        mGenre = BookEntry.GENRE_SCI_FI;
+                    } else if (selection.equals(getString(R.string.genre_mystery))) {
+                        mGenre = BookEntry.GENRE_MYSTERY;
+                    } else if (selection.equals(getString(R.string.genre_romance))) {
+                        mGenre = BookEntry.GENRE_ROMANCE;
+                    } else if (selection.equals(getString(R.string.genre_horror))) {
+                        mGenre = BookEntry.GENRE_HORROR;
+                    } else if (selection.equals(getString(R.string.genre_action_and_adventure))) {
+                        mGenre = BookEntry.GENRE_ACTION_AND_ADVENTURE;
+                    } else if (selection.equals(getString(R.string.genre_drama))) {
+                        mGenre = BookEntry.GENRE_DRAMA;
+                    } else {
+                        mGenre = BookEntry.GENRE_UNKNOWN;
+                    }
+                }
+            }
+
+            // Because AdapterView is an abstract class, onNothingSelected must be defined.
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mGenre = BookEntry.GENRE_UNKNOWN;
+            }
+        });
     }
 
     /**
@@ -141,7 +214,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // are blank.
         if (mCurrentBookUri == null && TextUtils.isEmpty(bookNameString) &&
                 TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
-                TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString)) {
+                TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString) &&
+                mGenre == BookEntry.GENRE_UNKNOWN) {
             // Since no fields were modified, we can return ealry without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
@@ -151,11 +225,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // and book attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, bookNameString);
+        values.put(BookEntry.COLUMN_PRODUCT_GENRE, mGenre);
         // If the price is not provided by the user, don't try to parse the string into
         // an integer value. Use 0 by default.
-        int price = 0;
+        double price = 0;
         if (!TextUtils.isEmpty(priceString)) {
-            price = Integer.parseInt(priceString);
+            price = Double.parseDouble(priceString);
         }
         values.put(BookEntry.COLUMN_PRODUCT_PRICE, price);
         // If the quantity is not provided by the user, don't try to parse the string into an
@@ -298,9 +373,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Since the editor shows all book attributes, define a projection that contains
         // all columns from the book table.
-        String[] projection = {
+        String[] projection = new String[]{
                 BookEntry._ID,
                 BookEntry.COLUMN_PRODUCT_NAME,
+                BookEntry.COLUMN_PRODUCT_GENRE,
                 BookEntry.COLUMN_PRODUCT_PRICE,
                 BookEntry.COLUMN_PRODUCT_QUANTITY,
                 BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME,
@@ -411,6 +487,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (cursor.moveToFirst()) {
             // Find the columns of pet attributes that we're interested in.
             int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
+            int genreColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_GENRE);
             int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY);
             int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
@@ -418,20 +495,49 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
             // Extract out the value from the Cursor for the given column index.
             String name = cursor.getString(nameColumnIndex);
-            int price = cursor.getInt(priceColumnIndex);
+            int genre = cursor.getInt(genreColumnIndex);
+            double price = cursor.getDouble(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
             String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
 
-            /*NumberFormat format = NumberFormat.getCurrencyInstance();
-            mPriceEditText.setText(format.format(price));
-*/
             // Update the views on the screen with the values from the database.
             mBookNameEditText.setText(name);
-            mPriceEditText.setText(Integer.toString(price));
+            mPriceEditText.setText(Double.toString(price));
             mQuantityEditText.setText(Integer.toString(quantity));
             mSupplierNameEditText.setText(supplierName);
             mSupplierPhoneEditText.setText(supplierPhone);
+
+            // Genre is a dropdown spinner, so the constant value from the database is mapped
+            // into one of the dropdown options (0 is Unknown, 1 is Fantasy, 2 is Sci Fi,
+            // 3 is Mystery, 4 is Romance, 5 is Horror, 6 is Action & Adventure, 7 is Drama).
+            // Then call setSelection() so that option is displayed on screen as the current
+            // selection.
+            switch (genre) {
+                case BookEntry.GENRE_FANTASY:
+                    mGenreSpinner.setSelection(1);
+                    break;
+                case BookEntry.GENRE_SCI_FI:
+                    mGenreSpinner.setSelection(2);
+                    break;
+                case BookEntry.GENRE_MYSTERY:
+                    mGenreSpinner.setSelection(3);
+                    break;
+                case BookEntry.GENRE_ROMANCE:
+                    mGenreSpinner.setSelection(4);
+                    break;
+                case BookEntry.GENRE_HORROR:
+                    mGenreSpinner.setSelection(5);
+                    break;
+                case BookEntry.GENRE_ACTION_AND_ADVENTURE:
+                    mGenreSpinner.setSelection(6);
+                    break;
+                case BookEntry.GENRE_DRAMA:
+                    mGenreSpinner.setSelection(7);
+                    break;
+                default:
+                    mGenreSpinner.setSelection(0);
+            }
         }
     }
 
@@ -439,6 +545,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     public void onLoaderReset(Loader<Cursor> loader) {
         // If the loader is invalidated, clear out all the data from the input fields.
         mBookNameEditText.setText("");
+        mGenreSpinner.setSelection(0); // Select Unknown genre
         mPriceEditText.setText("");
         mQuantityEditText.setText("");
         mSupplierNameEditText.setText("");

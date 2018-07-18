@@ -67,9 +67,20 @@ public final class BookContract {
         public final static String COLUMN_PRODUCT_NAME = "name";
 
         /**
-         * Price of the book.
+         * Genre of the book.
+         *
+         * The only possible values are {@link #GENRE_UNKNOWN}, {@link #GENRE_FANTASY},
+         * {@link #GENRE_SCI_FI}, {@link #GENRE_MYSTERY}, {@link #GENRE_ROMANCE},
+         * {@link #GENRE_HORROR}, {@link #GENRE_ACTION_AND_ADVENTURE} or {@link #GENRE_DRAMA}.
          *
          * Type: INTEGER
+         */
+        public final static String COLUMN_PRODUCT_GENRE = "genre";
+
+        /**
+         * Price of the book.
+         * <p>
+         * Type: REAL
          */
         public final static String COLUMN_PRODUCT_PRICE = "price";
 
@@ -93,5 +104,31 @@ public final class BookContract {
          * Type: TEXT
          */
         public final static String COLUMN_PRODUCT_SUPPLIER_PHONE = "supplier_phone_number";
+
+        /**
+         * Possible values for the genre of the book.
+         */
+        public static final int GENRE_UNKNOWN = 0;
+        public static final int GENRE_FANTASY = 1;
+        public static final int GENRE_SCI_FI = 2;
+        public static final int GENRE_MYSTERY = 3;
+        public static final int GENRE_ROMANCE = 4;
+        public static final int GENRE_HORROR = 5;
+        public static final int GENRE_ACTION_AND_ADVENTURE = 6;
+        public static final int GENRE_DRAMA = 7;
+
+        /**
+         * Returns whether or not the given genre is {@link #GENRE_UNKNOWN}, {@link #GENRE_FANTASY},
+         * {@link #GENRE_SCI_FI}, {@link #GENRE_MYSTERY}, {@link #GENRE_ROMANCE},
+         * {@link #GENRE_HORROR}, {@link #GENRE_ACTION_AND_ADVENTURE} or {@link #GENRE_DRAMA}.
+         */
+        public static boolean isValidGenre(int genre) {
+            if (genre == GENRE_UNKNOWN || genre == GENRE_FANTASY || genre == GENRE_SCI_FI ||
+                    genre == GENRE_MYSTERY || genre == GENRE_ROMANCE || genre == GENRE_HORROR ||
+                    genre == GENRE_ACTION_AND_ADVENTURE || genre == GENRE_DRAMA) {
+                return true;
+            }
+            return false;
+        }
     }
 }
