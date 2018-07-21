@@ -3,6 +3,7 @@ package com.example.android.inventoryapp;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -550,5 +552,27 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mQuantityEditText.setText("");
         mSupplierNameEditText.setText("");
         mSupplierPhoneEditText.setText("");
+    }
+
+    // This method hides the keyboard when the user clicks away from the EditText box
+    // Found on stackOverflow - https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext/16176277#16176277
+    // author Hoang Trinh, date 27 July 2014.
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View view = getCurrentFocus();
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP ||
+                ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText &&
+                !view.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            view.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+            if (x < view.getLeft() || x > view.getRight() || y < view.getTop() ||
+                    y > view.getBottom())
+                ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow((this.getWindow().getDecorView()
+                                .getApplicationWindowToken()), 0);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

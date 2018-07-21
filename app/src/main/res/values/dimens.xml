@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_list_quantity_5dp">5dp</dimen>
+    <dimen name="margin_catalog_fab_16dp">16dp</dimen>
+    <dimen name="padding_all_small_16dp">16dp</dimen>
+    <dimen name="padding_editor_micro_4dp">4dp</dimen>
+    <dimen name="width_editor_0dp">0dp</dimen>
+    <dimen name="height_editor_spinner_48dp">48dp</dimen>
+</resources>
