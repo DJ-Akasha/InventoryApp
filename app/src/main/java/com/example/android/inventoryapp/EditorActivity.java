@@ -229,6 +229,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (TextUtils.isEmpty(bookNameString)) {
             Toast.makeText(this, R.string.provider_requires_name, Toast.LENGTH_SHORT).show();
             mBookNameEditText.setError("Book name is required.");
+            return;
         }
 
         // Create a ContentValues object where column names are the keys,
