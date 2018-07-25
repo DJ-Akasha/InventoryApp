@@ -226,6 +226,8 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
             final int quantity = cursor.getInt(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY));
             final int id = cursor.getInt(cursor.getColumnIndex(BookEntry._ID));
 
+            setTitle(name);
+
             // Context initialised for increase and decrease buttons to work.
             // Solution foun here - https://www.zidsworld.com/android-tutorials/how-to-fix-cannot-resolve-symbol-context-in-java-android/
             // Author admin on 21 Feb 2018

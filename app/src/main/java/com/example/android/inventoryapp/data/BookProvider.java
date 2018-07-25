@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.example.android.inventoryapp.R;
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
-// TODO: CHANGE THE THROWILLEGALEXCEPTIONS TO TOASTS IF USER DOESN'T ADD INFO IN A FIELD.
 /**
  * {@link ContentProvider} for book store inventory app.
  */
@@ -28,7 +27,9 @@ public class BookProvider extends ContentProvider {
      */
     private BookDbHelper mDbHelper;
 
-    /** URI matcher code for the content URI for the pets table. */
+    /**
+     * URI matcher code for the content URI for the books table.
+     */
     private static final int BOOKS = 100;
 
     /** URI matcher code for the content URI for a single book in the books table. */
@@ -132,42 +133,6 @@ public class BookProvider extends ContentProvider {
      */
     private Uri insertBook(Uri uri, ContentValues values) {
 
-        // Check that the name is not null.
-        String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-        if (TextUtils.isEmpty(name)) { // This was (name == null) not sure why ????????????????????
-            Toast.makeText(getContext(), R.string.provider_requires_name, Toast.LENGTH_SHORT).show();
-        }
-
-        // Check that the genre is valid
-        Integer genre = values.getAsInteger(BookEntry.COLUMN_PRODUCT_GENRE);
-        if (genre == null || !BookEntry.isValidGenre(genre)) {
-            Toast.makeText(getContext(), R.string.provider_requires_genre, Toast.LENGTH_SHORT).show();
-        }
-
-        // Check that the price is greater than or equal to 0.
-        Double price = values.getAsDouble(BookEntry.COLUMN_PRODUCT_PRICE);
-        if (price != null && price < 0){
-            Toast.makeText(getContext(), R.string.provider_requires_price, Toast.LENGTH_SHORT).show();
-        }
-
-        // Check that the quantity is greater than or equal to 0.
-        Integer quantity = values.getAsInteger(BookEntry.COLUMN_PRODUCT_QUANTITY);
-        if (quantity != null && quantity < 0){
-            Toast.makeText(getContext(), R.string.provider_requires_quantity, Toast.LENGTH_SHORT).show();
-        }
-
-        // Check that the name is not null.
-        String supplierName = values.getAsString(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
-        if (TextUtils.isEmpty(supplierName)) {
-            Toast.makeText(getContext(), R.string.provider_requires_supplier_name, Toast.LENGTH_SHORT).show();
-        }
-
-        // Check that the phone number has been added.
-        Long supplierPhone = values.getAsLong(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
-        if (supplierPhone != null) {
-            Toast.makeText(getContext(), R.string.provider_requires_supplier_phone, Toast.LENGTH_SHORT).show();
-        }
-
         // Get writeable database.
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -210,51 +175,6 @@ public class BookProvider extends ContentProvider {
      * Return the number of rows that were successfully updated.
      */
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        // If the {@link PetEntry#COLUMN_PRODUCT_NAME} key is present,
-        // check that the name value is not null.
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)) {
-            String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-            if (name == null) {
-                throw new IllegalArgumentException("Book requires a name");
-            }
-        }
-
-        // If the {@link BookEntry#COLUMN_PRODUCT_GENRE} key is present,
-        // check that the genre value is valid.
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_GENRE)) {
-            Integer genre = values.getAsInteger(BookEntry.COLUMN_PRODUCT_GENRE);
-            if (genre == null || !BookEntry.isValidGenre(genre)) {
-                throw new IllegalArgumentException("Book requires valid genre");
-            }
-        }
-
-        // If the {@link PetEntry#COLUMN_PRODUCT_PRICE} key is present,
-        // check that the price value is valid.
-
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_PRICE)) {
-            Double price = values.getAsDouble(BookEntry.COLUMN_PRODUCT_PRICE);
-            if (price != null && price < 0) {
-                throw new IllegalArgumentException("Book requires valid price");
-            }
-        }
-
-        // If the {@link PetEntry#COLUMN_PRODUCT_QUANTITY} key is present,
-        // check that the quantity value is valid.
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_QUANTITY)) {
-            Integer quantity = values.getAsInteger(BookEntry.COLUMN_PRODUCT_QUANTITY);
-            if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Book requires valid price");
-            }
-        }
-
-        // If the {@link PetEntry#COLUMN_PRODUCT_SUPPLIER_NAME} key is present,
-        // check that the supplier name value is not null.
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME)) {
-            String supplierName = values.getAsString(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
-            if (supplierName == null) {
-                throw new IllegalArgumentException("Book requires a supplier's name");
-            }
-        }
 
         // If there are no values to update, then don't try to update the database.
         if (values.size() == 0){
