@@ -16,7 +16,6 @@
         android:layout_marginLeft="@dimen/padding_all_small_16dp"
         android:layout_marginStart="@dimen/padding_all_small_16dp"
         android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
         tools:text="@string/hint_book_name" />
 
     <TextView
@@ -31,6 +30,7 @@
         android:layout_marginStart="@dimen/padding_all_small_16dp"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
+        android:paddingTop="16dp"
         tools:text="£5.99" />
 
     <LinearLayout
@@ -62,6 +62,6 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/quantity_layout"
         android:focusable="false"
-        android:layout_marginRight="6dp"
+        android:layout_marginRight="16dp"
         android:text="@string/sale_button" />
 </RelativeLayout>

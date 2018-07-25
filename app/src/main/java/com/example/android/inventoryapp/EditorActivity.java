@@ -218,9 +218,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
                 TextUtils.isEmpty(supplierNameString) && TextUtils.isEmpty(supplierPhoneString) &&
                 mGenre == BookEntry.GENRE_UNKNOWN) {
-            // Since no fields were modified, we can return ealry without creating a new book.
+            // Since no fields were modified, we can return early without creating a new book.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             return;
+        }
+
+        // This solution was found here https://stackoverflow.com/questions/11535011/edittext-
+        // field-is-required-before-moving-on-to-another-activity
+        // Author Haresh Chaudhary on 18 July 2012
+        if (TextUtils.isEmpty(bookNameString)) {
+            Toast.makeText(this, R.string.provider_requires_name, Toast.LENGTH_SHORT).show();
+            mBookNameEditText.setError("Book name is required.");
         }
 
         // Create a ContentValues object where column names are the keys,

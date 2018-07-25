@@ -165,10 +165,14 @@
                 style="@style/EditorFieldStyle"
                 tools:text="@string/hint_book_supplier_name" />
 
-            <!-- Supplier Phone Number field -->
+            <!-- Supplier Phone Number field
+             Icons found at www.iconfinder.com made by Daniel Bruce from the Entypo
+        icon set -->
             <TextView
                 android:id="@+id/detailed_view_supplier_phone"
                 style="@style/EditorFieldStyle"
+                android:autoLink="phone"
+                android:drawableRight="@drawable/phone"
                 tools:text="0800800800" />
         </LinearLayout>
     </LinearLayout>
