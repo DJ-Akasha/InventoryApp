@@ -4,27 +4,30 @@
     <!-- Label for overflow menu option that inserts fake book data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
 
-    <!-- Label for overflow menu option that deletes all pet data in the app [CHAR LIMIT=20] -->
+    <!-- Label for overflow menu option that deletes all book data in the app [CHAR LIMIT=20] -->
     <string name="action_delete_all_entries">Delete All Books</string>
 
-    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <!-- Title text for the empty view, which describes the empty view image [CHAR LIMIT=50] -->
     <string name="empty_view_title_text">Get started by adding a book</string>
 
-    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
+    <!-- Subtitle text for the empty view that prompts the user to add a book [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Required sections: \n\n Book Name \n Price \n
         Quantity in Stock \n Supplier Name \n Supplier Phone Number</string>
 
-    <!-- Title for the activity to add a new pet [CHAR LIMIT=20] -->
+    <!-- Title for the activity to add a new book [CHAR LIMIT=20] -->
     <string name="editor_activity_title_new_book">Add a Book</string>
 
-    <!-- Title for the activity to edit a pet [CHAR LIMIT=20] -->
+    <!-- Title for the activity to edit a book [CHAR LIMIT=20] -->
     <string name="editor_activity_title_edit_book">Edit Book</string>
 
-    <!-- Label for editor menu option to save pet and leave editor [CHAR LIMIT=20] -->
+    <!-- Label for editor menu option to save book and leaves the editor [CHAR LIMIT=20] -->
     <string name="action_save">Save</string>
 
-    <!-- Label for editor overflow menu option that deletes the current pet [CHAR LIMIT=20] -->
+    <!-- Label for editor overflow menu option that deletes the current book [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
+
+    <!-- Label for detailed view overflow menu option that opens the editor [CHAR LIMIT=20] -->
+    <string name="action_edit">Edit</string>
 
     <!-- Label for book name category of attributes in the editor [CHAR LIMIT=30] -->
     <string name="category_book">Book</string>
@@ -68,6 +71,9 @@
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_name">Name</string>
 
+    <!-- Text hint for genre field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_book_genre">Genre</string>
+
     <!-- Text hint for price field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_price">Price</string>
 
@@ -80,23 +86,41 @@
     <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_supplier_phone">Phone Number</string>
 
-    <!-- Toast message in editor when new pet has been successfully inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new book has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_book_successful">Book saved</string>
 
-    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new book has failed to be inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_book_failed">Error with saving book</string>
 
-    <!-- Toast message in editor when new pet has been successfully inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new book has been successfully inserted [CHAR LIMIT=NONE] -->
     <string name="editor_update_book_successful">Book updated</string>
 
-    <!-- Toast message in editor when new pet has failed to be inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new book has failed to be inserted [CHAR LIMIT=NONE] -->
     <string name="editor_update_book_failed">Error with updating book</string>
 
-    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when current book was successfully deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_book_successful">Book deleted</string>
 
-    <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when current book has failed to be deleted [CHAR LIMIT=NONE] -->
     <string name="editor_delete_book_failed">Error with deleting book</string>
+
+    <!-- Toast message in provider when current book requires a name [CHAR LIMIT=NONE] -->
+    <string name="provider_requires_name">Book requires a name</string>
+
+    <!-- Toast message in provider when current book requires a genre [CHAR LIMIT=NONE] -->
+    <string name="provider_requires_genre">Book requires a genre</string>
+
+    <!-- Toast message in provider when current book requires a valid price [CHAR LIMIT=NONE] -->
+    <string name="provider_requires_price">Book requires a valid price</string>
+
+    <!-- Toast message in provider when current book requires a valid quantity [CHAR LIMIT=NONE] -->
+    <string name="provider_requires_quantity">Book requires a valid quantity</string>
+
+    <!-- Toast message in provider when current book requires a supplier name [CHAR LIMIT=NONE] -->
+    <string name="provider_requires_supplier_name">Book requires a supplier name</string>
+
+    <!-- Toast message in provider when current book requires a supplier phone number [CHAR LIMIT=NONE] -->
+    <string name="provider_requires_supplier_phone">Book requires a supplier phone number</string>
 
     <!-- Dialog message when user is leaving editor but hasn't saved changes [CHAR LIMIT=NONE] -->
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>

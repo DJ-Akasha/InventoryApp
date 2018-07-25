@@ -22,6 +22,15 @@
             android:authorities="com.example.android.inventoryapp"
             android:exported="false" />
 
+        <activity
+            android:name=".DetailedViewActivity"
+            android:parentActivityName=".CatalogActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CatalogActivity" />
+        </activity>
+
         <activity android:name=".EditorActivity"
             android:theme="@style/EditorTheme"
             android:parentActivityName=".CatalogActivity">

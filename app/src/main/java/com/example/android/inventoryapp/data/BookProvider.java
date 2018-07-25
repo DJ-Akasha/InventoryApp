@@ -9,9 +9,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.android.inventoryapp.R;
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
+// TODO: CHANGE THE THROWILLEGALEXCEPTIONS TO TOASTS IF USER DOESN'T ADD INFO IN A FIELD.
 /**
  * {@link ContentProvider} for book store inventory app.
  */
@@ -132,34 +135,38 @@ public class BookProvider extends ContentProvider {
         // Check that the name is not null.
         String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
         if (TextUtils.isEmpty(name)) { // This was (name == null) not sure why ????????????????????
-            throw new IllegalArgumentException("Book requires a name");
+            Toast.makeText(getContext(), R.string.provider_requires_name, Toast.LENGTH_SHORT).show();
         }
 
         // Check that the genre is valid
         Integer genre = values.getAsInteger(BookEntry.COLUMN_PRODUCT_GENRE);
         if (genre == null || !BookEntry.isValidGenre(genre)) {
-            throw new IllegalArgumentException("Book requires valid genre");
+            Toast.makeText(getContext(), R.string.provider_requires_genre, Toast.LENGTH_SHORT).show();
         }
 
         // Check that the price is greater than or equal to 0.
         Double price = values.getAsDouble(BookEntry.COLUMN_PRODUCT_PRICE);
         if (price != null && price < 0){
-            throw new IllegalArgumentException("Book requires a valid price");
+            Toast.makeText(getContext(), R.string.provider_requires_price, Toast.LENGTH_SHORT).show();
         }
 
         // Check that the quantity is greater than or equal to 0.
         Integer quantity = values.getAsInteger(BookEntry.COLUMN_PRODUCT_QUANTITY);
         if (quantity != null && quantity < 0){
-            throw new IllegalArgumentException("Book requires a valid quantity");
+            Toast.makeText(getContext(), R.string.provider_requires_quantity, Toast.LENGTH_SHORT).show();
         }
 
         // Check that the name is not null.
         String supplierName = values.getAsString(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
-        if (TextUtils.isEmpty(supplierName)) { // this was (supplierName == null)  not sure why ????????????????????
-            throw new IllegalArgumentException("Book requires a supplier name");
+        if (TextUtils.isEmpty(supplierName)) {
+            Toast.makeText(getContext(), R.string.provider_requires_supplier_name, Toast.LENGTH_SHORT).show();
         }
 
-        // No need to check if the phone number has been added as it is not a requirement.
+        // Check that the phone number has been added.
+        Long supplierPhone = values.getAsLong(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
+        if (supplierPhone != null) {
+            Toast.makeText(getContext(), R.string.provider_requires_supplier_phone, Toast.LENGTH_SHORT).show();
+        }
 
         // Get writeable database.
         SQLiteDatabase database = mDbHelper.getWritableDatabase();

@@ -322,7 +322,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar.
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
+                // If the book hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mBookHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
@@ -423,6 +423,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
+    /**
+     * The alert confirmation when user presses the delete button.
+     */
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the positive and negative buttons on the dialog.
@@ -487,7 +490,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor).
         if (cursor.moveToFirst()) {
-            // Find the columns of pet attributes that we're interested in.
+            // Find the columns of book attributes that we're interested in.
             int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
             int genreColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_GENRE);
             int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);

@@ -128,7 +128,4 @@ public class BookCursorAdapter extends CursorAdapter {
             }
         });
     }
-
-    // TODO: ADD A SALE BUTTON FOR EACH ITEM IN THE LIST. THE QUANTITY MUST BE REDUCED BY ONE ADD
-    // CODE TO MAKE SURE IT DOESN'T GO BELOW 0
 }

@@ -61,8 +61,8 @@ public class CatalogActivity extends AppCompatActivity implements
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                // Create new intent to go to {@link EditorActivity}.
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                // Create new intent to go to {@link DetailedViewActivity}.
+                Intent intent = new Intent(CatalogActivity.this, DetailedViewActivity.class);
 
                 // Form the content URI that represents the specific book that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
@@ -72,7 +72,7 @@ public class CatalogActivity extends AppCompatActivity implements
                 // Set the URI on the data field of the intent.
                 intent.setData(currentBookUri);
 
-                // Launch the {@link EditorActivity} to display the data for the current book.
+                // Launch the {@link DetailedViewActivity} to display the data for the current book.
                 startActivity(intent);
             }
         });
@@ -93,7 +93,7 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME, "Waterstones");
         values.put(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE, "0208555555");
 
-        // Insert a new row for Wyrd Sisters into the provider using the ContentResolver.
+        // Insert a new row for the dummy book into the provider using the ContentResolver.
         Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
     }
 
