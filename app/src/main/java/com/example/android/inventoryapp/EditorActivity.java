@@ -18,20 +18,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
-
 /**
  * Allows user to create a new book or edit an existing one.
  */
-public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class EditorActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * Identifier for the book data loader.
@@ -44,37 +46,37 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private Uri mCurrentBookUri;
 
     /**
-     * EditText field to enter the product's name.
+     * EditText field to enter the book's name.
      */
     private EditText mBookNameEditText;
 
     /**
-     * EditText field to enter the product's price.
+     * EditText field to enter the book's price.
      */
     private EditText mPriceEditText;
 
     /**
-     * EditText field to enter the product's quantity.
+     * EditText field to enter the book's quantity.
      */
     private EditText mQuantityEditText;
 
     /**
-     * EditText field to enter the product's supplier name.
+     * EditText field to enter the book's supplier name.
      */
     private EditText mSupplierNameEditText;
 
     /**
-     * EditText field to enter the product's supplier phone number.
+     * EditText field to enter the book's supplier phone number.
      */
     private EditText mSupplierPhoneEditText;
 
     /**
-     * EditText field to enter the book's genre
+     * Spinner field to choose the book's genre.
      */
     private Spinner mGenreSpinner;
 
     /**
-     * Gender of the pet. The possible values are in the PetContract.java file:
+     * Gender of the book. The possible values are in the BookContract.java file:
      * {@link BookEntry#GENRE_UNKNOWN},
      * {@link BookEntry#GENRE_FANTASY},
      * {@link BookEntry#GENRE_SCI_FI}
@@ -87,13 +89,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private int mGenre = BookEntry.GENRE_UNKNOWN;
 
     /**
-     * Boolean flag that keeps track of whether the pet has been edited (true) or not (false).
+     * Boolean flag that keeps track of whether the book has been edited (true) or not (false).
      */
     private boolean mBookHasChanged = false;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are
-     * modifying the view, and we change the mPetHasChanged boolean to true.
+     * modifying the view, and we change the mBookHasChanged boolean to true.
      */
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -109,7 +111,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_editor);
 
         // Examine the intent that was used to launch this activity,
-        // in order to figure out if we're creating a new product or editing an existing one.
+        // in order to figure out if we're creating a new book or editing an existing one.
         Intent intent = getIntent();
         mCurrentBookUri = intent.getData();
 
@@ -126,7 +128,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Otherwise this is an existing book, so change app bar to say "Edit Book".
             setTitle(getString(R.string.editor_activity_title_edit_book));
 
-            //Initialize a loader to read the book data from the database
+            // Initialize a loader to read the book data from the database
             // and display the current values in the editor.
             getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
         }
@@ -156,7 +158,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      * Setup the dropdown spinner that allows the user to select the genre of the book.
      */
     private void setupSpinner() {
-        // Create adapter for the spinner. The list options are from the String array and
+        // Create adapter for the spinner. The list options are from the String Array and
         // the spinner will use the dafault layout.
         ArrayAdapter genreSpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_genre_options, android.R.layout.simple_spinner_item);
@@ -199,6 +201,18 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 mGenre = BookEntry.GENRE_UNKNOWN;
             }
         });
+
+        // Change the color of the spinner text to a different colour of our choosing
+        // Solution found here - https://stackoverflow.com/questions/9476665/how-to-change-
+        // spinner-text-size-and-text-color
+        // Author vishal-wadhwa written on 17th July 2017.
+        mGenreSpinner.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ((TextView) mGenreSpinner.getSelectedView()).setTextColor(getResources()
+                        .getColor(R.color.textColorPrimaryDark));
+            }
+        });
     }
 
     /**
@@ -223,6 +237,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
 
+        // Check that all fields have been filled in before saving the book.
         // This solution was found here https://stackoverflow.com/questions/11535011/edittext-
         // field-is-required-before-moving-on-to-another-activity
         // Author Haresh Chaudhary on 18 July 2012
@@ -240,23 +255,25 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         if (TextUtils.isEmpty(quantityString)) {
-            Toast.makeText(this, R.string.provider_requires_quantity, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.provider_requires_quantity,
+                    Toast.LENGTH_SHORT).show();
             mQuantityEditText.setError("Book quantity is required.");
             return;
         }
 
         if (TextUtils.isEmpty(supplierNameString)) {
-            Toast.makeText(this, R.string.provider_requires_supplier_name, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.provider_requires_supplier_name,
+                    Toast.LENGTH_SHORT).show();
             mSupplierNameEditText.setError("Book supplier name is required.");
             return;
         }
 
         if (TextUtils.isEmpty(supplierPhoneString)) {
-            Toast.makeText(this, R.string.provider_requires_supplier_phone, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.provider_requires_supplier_phone,
+                    Toast.LENGTH_SHORT).show();
             mSupplierPhoneEditText.setError("Book supplier phone is required.");
             return;
         } else {
-
             // Create a ContentValues object where column names are the keys,
             // and book attributes from the editor are the values.
             ContentValues values = new ContentValues();
@@ -348,8 +365,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.action_save:
                 // Save book to database.
                 saveBook();
-                // Exit activity.
-                //  finish();
                 return true;
             // Respond to a click on the "Delete" menu option.
             case R.id.action_delete:
@@ -426,7 +441,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 projection,                   // The columns to include int he resulting cursor.
                 null,                // No selection clause.
                 null,            // No selection arguments.
-                null);              // Defualt sort order.
+                null);              // Default sort order.
     }
 
     /**
@@ -447,7 +462,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep Editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the book.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -526,21 +541,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor).
         if (cursor.moveToFirst()) {
-            // Find the columns of book attributes that we're interested in.
-            int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
-            int genreColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_GENRE);
-            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY);
-            int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME);
-            int supplierPhoneColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE);
-
-            // Extract out the value from the Cursor for the given column index.
-            String name = cursor.getString(nameColumnIndex);
-            int genre = cursor.getInt(genreColumnIndex);
-            double price = cursor.getDouble(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
-            String supplierName = cursor.getString(supplierNameColumnIndex);
-            String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
+            // Find and read the book attributes from the Cursor for the current book.
+            String name = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME));
+            int genre = cursor.getInt(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_GENRE));
+            double price = cursor.getDouble(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE));
+            int quantity = cursor.getInt(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY));
+            String supplierName = cursor.getString
+                    (cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME));
+            String supplierPhone = cursor.getString
+                    (cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE));
 
             // Update the views on the screen with the values from the database.
             mBookNameEditText.setText(name);
@@ -594,7 +603,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     // This method hides the keyboard when the user clicks away from the EditText box
-    // Found on stackOverflow - https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext/16176277#16176277
+    // Found on stackOverflow - https://stackoverflow.com/questions/4165414/how-to-hide-soft-
+    // keyboard-on-android-after-clicking-outside-edittext/16176277#16176277
     // author Hoang Trinh, date 27 July 2014.
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

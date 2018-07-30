@@ -42,7 +42,8 @@ public class CatalogActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                Intent intent = new Intent
+                        (CatalogActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
         });
@@ -62,7 +63,8 @@ public class CatalogActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Create new intent to go to {@link DetailedViewActivity}.
-                Intent intent = new Intent(CatalogActivity.this, DetailedViewActivity.class);
+                Intent intent = new Intent
+                        (CatalogActivity.this, DetailedViewActivity.class);
 
                 // Form the content URI that represents the specific book that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
@@ -84,7 +86,7 @@ public class CatalogActivity extends AppCompatActivity implements
     private void insertBook () {
 
         // Create a ContentValues object where column names are the keys,
-        // and Harry Potter book product details are the values.
+        // and Wyrd Sisters book product details are the values.
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Wyrd Sisters");
         values.put(BookEntry.COLUMN_PRODUCT_GENRE, BookEntry.GENRE_FANTASY);

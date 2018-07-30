@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +31,6 @@ public class BookCursorAdapter extends CursorAdapter {
     private TextView mNameTextView;
     private TextView mPriceTextView;
     private TextView mQuantityTextView;
-    // private int mBookQuantity;
     private Button mSaleButton;
 
     /**
@@ -54,7 +52,7 @@ public class BookCursorAdapter extends CursorAdapter {
      * Makes a new blank list item view. No data is set (or bound) to the views yet.
      *
      * @param context app context.
-     * @param cursor  The cursor from which to get the data. The cursor is already.
+     * @param cursor  The cursor from which to get the data. The cursor is already
      *                moved to the correct position.
      * @param parent The parent to which the new view is attached to the newly created list
      *               item view.
@@ -86,7 +84,8 @@ public class BookCursorAdapter extends CursorAdapter {
         // Find and read the book attributes from the Cursor for the current book.
         String bookName = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME));
         String bookPrice = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE));
-        final String mBookQuantity = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY));
+        final String mBookQuantity = cursor.getString
+                (cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY));
         final int id = cursor.getInt(cursor.getColumnIndex(BookEntry._ID));
 
         // Add the local currency to the price.
@@ -95,7 +94,7 @@ public class BookCursorAdapter extends CursorAdapter {
         // Author Deron Eriksson written in 2014.
         NumberFormat format = NumberFormat.getCurrencyInstance();
 
-        // Update the TextViews with the attributs for the current book.
+        // Update the TextViews with the attributes for the current book.
         mNameTextView.setText(bookName);
         // Solution to the app crashing was found here - https://stackoverflow.com/questions/
         // 45274167/formating-using-decimalformat-thows-exception-cannot-format-given-object-as-a
@@ -108,7 +107,8 @@ public class BookCursorAdapter extends CursorAdapter {
             public void onClick(View v) {
                 // If there is no more stock display toast message else decrease quantity by 1.
                 if (Integer.parseInt(mBookQuantity) == 0) {
-                    Toast.makeText(context, R.string.no_stock, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.no_stock,
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     // This decreases the items' stock quantity.
                     int quantity = Integer.parseInt(mBookQuantity) - 1;
@@ -123,7 +123,8 @@ public class BookCursorAdapter extends CursorAdapter {
                     // This points to which column needs changing.
                     String[] selectionArgs = new String[]{String.valueOf(id)};
                     //This updates the database via the content resolver.
-                    context.getContentResolver().update(currentBook, values, selection, selectionArgs);
+                    context.getContentResolver().update
+                            (currentBook, values, selection, selectionArgs);
                 }
             }
         });

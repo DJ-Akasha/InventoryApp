@@ -7,11 +7,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.android.inventoryapp.R;
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
 /**
@@ -42,7 +39,8 @@ public class BookProvider extends ContentProvider {
     static {
         sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS, BOOKS);
 
-        sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS + "/#", BOOKS_ID);
+        sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS +
+                "/#", BOOKS_ID);
     }
 
     /**
@@ -55,8 +53,8 @@ public class BookProvider extends ContentProvider {
     }
 
     /**
-     * Perform the query for the given URI. Use the given projection, selection, selection arguments,
-     * and sort order.
+     * Perform the query for the given URI. Use the given projection, selection, selection
+     * arguments, and sort order.
      */
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
@@ -73,7 +71,7 @@ public class BookProvider extends ContentProvider {
             case BOOKS:
                 // For the BOOKS code, query the books table directly with the given
                 // projection, selection, selection arguments, and sort order. The cursor
-                // could contain multiple rows of the pets table.
+                // could contain multiple rows of the books table.
                 cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
@@ -144,7 +142,7 @@ public class BookProvider extends ContentProvider {
             return null;
         }
 
-        // Notify all listeners that the data has changed for the pet content URI.
+        // Notify all listeners that the data has changed for the book content URI.
         getContext().getContentResolver().notifyChange(uri, null);
 
         // Return the new URI with the ID (of the newly inserted row) appended at the end.
@@ -174,7 +172,8 @@ public class BookProvider extends ContentProvider {
      * Update books in the database with the given content values.
      * Return the number of rows that were successfully updated.
      */
-    private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    private int updateBook
+    (Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         // If there are no values to update, then don't try to update the database.
         if (values.size() == 0){
@@ -184,7 +183,7 @@ public class BookProvider extends ContentProvider {
         // Otherwise, get writeable database to update the data.
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Perform the update on the databse and get the number of rows affected.
+        // Perform the update on the database and get the number of rows affected.
         int rowsUpdated = database.update(BookEntry.TABLE_NAME, values,selection, selectionArgs);
 
         // If 1 or more rows were updated, then notify all listeners that the data at the

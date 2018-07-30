@@ -53,7 +53,7 @@ public final class BookContract {
         public final static String TABLE_NAME = "books";
 
         /**
-         * Unique ID number for the product (only for use in the database table).
+         * Unique ID number for the product.
          *
          * Type: INTEGER
          */
@@ -79,7 +79,7 @@ public final class BookContract {
 
         /**
          * Price of the book.
-         * <p>
+         *
          * Type: REAL
          */
         public final static String COLUMN_PRODUCT_PRICE = "price";
@@ -116,19 +116,5 @@ public final class BookContract {
         public static final int GENRE_HORROR = 5;
         public static final int GENRE_ACTION_AND_ADVENTURE = 6;
         public static final int GENRE_DRAMA = 7;
-
-        /**
-         * Returns whether or not the given genre is {@link #GENRE_UNKNOWN}, {@link #GENRE_FANTASY},
-         * {@link #GENRE_SCI_FI}, {@link #GENRE_MYSTERY}, {@link #GENRE_ROMANCE},
-         * {@link #GENRE_HORROR}, {@link #GENRE_ACTION_AND_ADVENTURE} or {@link #GENRE_DRAMA}.
-         */
-        public static boolean isValidGenre(int genre) {
-            if (genre == GENRE_UNKNOWN || genre == GENRE_FANTASY || genre == GENRE_SCI_FI ||
-                    genre == GENRE_MYSTERY || genre == GENRE_ROMANCE || genre == GENRE_HORROR ||
-                    genre == GENRE_ACTION_AND_ADVENTURE || genre == GENRE_DRAMA) {
-                return true;
-            }
-            return false;
-        }
     }
 }

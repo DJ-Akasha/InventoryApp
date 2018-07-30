@@ -3,34 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_all_small_16dp">
+    android:padding="@dimen/padding_all_medium_16dp">
 
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/ListViewNameStyle"
-        android:layout_alignParentLeft="true"
         android:layout_alignBaseline="@id/quantity_layout"
-        android:layout_marginLeft="@dimen/padding_all_small_16dp"
-        android:layout_marginStart="@dimen/padding_all_small_16dp"
-        android:textColor="@color/colorPrimary"
         tools:text="@string/hint_book_name" />
 
     <TextView
         android:id="@+id/price"
         style="@style/ListViewPriceStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/sale_button"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/name"
-        android:layout_marginLeft="@dimen/padding_all_small_16dp"
-        android:layout_marginStart="@dimen/padding_all_small_16dp"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
-        android:paddingTop="16dp"
         tools:text="£5.99" />
 
     <LinearLayout
@@ -42,26 +28,21 @@
 
         <TextView
             android:id="@+id/quantity_in_stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ListViewQuantityStyle"
+            android:layout_marginRight="@dimen/margin_list_quantity_5dp"
             tools:text="15" />
 
         <TextView
             android:id="@+id/stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="@dimen/margin_catalog_fab_16dp"
+            style="@style/ListViewQuantityStyle"
+            android:layout_marginRight="@dimen/margin_all_16dp"
             android:text="@string/in_stock" />
     </LinearLayout>
 
     <Button
         android:id="@+id/sale_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        style="@style/ListViewSaleButtonStyle"
         android:layout_below="@id/quantity_layout"
         android:focusable="false"
-        android:layout_marginRight="16dp"
         android:text="@string/sale_button" />
 </RelativeLayout>

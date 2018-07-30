@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.inventoryapp">
 
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+
+    <!-- Launcher icon designed by freepik from Flaticon
+     https://www.flaticon.com/free-icon/books-stack-of-three_29302-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

@@ -2,6 +2,7 @@ package com.example.android.inventoryapp;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,8 @@ import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
 import java.text.NumberFormat;
 
-public class DetailedViewActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailedViewActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * Identifier for the book data loader.
@@ -38,7 +41,7 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
     private Uri mCurrentBookUri;
 
     /**
-     * TextView field to enter the product's name.
+     * TextView field to enter the book's name.
      */
     private TextView mBookNameTextView;
 
@@ -48,22 +51,22 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
     private TextView mGenreTextView;
 
     /**
-     * TextView field to enter the product's price.
+     * TextView field to enter the book's price.
      */
     private TextView mPriceTextView;
 
     /**
-     * TextView field to enter the product's quantity.
+     * TextView field to enter the book's quantity.
      */
     private TextView mQuantityTextView;
 
     /**
-     * TextView field to enter the product's supplier name.
+     * TextView field to enter the book's supplier name.
      */
     private TextView mSupplierNameTextView;
 
     /**
-     * TextView field to enter the product's supplier phone number.
+     * TextView field to enter the book's supplier phone number.
      */
     private TextView mSupplierPhoneTextView;
 
@@ -76,6 +79,11 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
      * Button to decrease the quantity.
      */
     private ImageButton mDecreaseButton;
+
+    /**
+     * supplierPhone initialised here so that it can be used for the callIntent.
+     */
+    private String supplierPhone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +99,6 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
         getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
 
         // Find all relevant views.
-        mBookNameTextView = findViewById(R.id.detailed_view_book_name);
         mGenreTextView = findViewById(R.id.detailed_view_spinner_genre);
         mPriceTextView = findViewById(R.id.detailed_view_book_price);
         mQuantityTextView = findViewById(R.id.detailed_view_book_quantity);
@@ -99,6 +106,26 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
         mSupplierPhoneTextView = findViewById(R.id.detailed_view_supplier_phone);
         mIncreaseButton = findViewById(R.id.detailed_view_increase_quantity);
         mDecreaseButton = findViewById(R.id.detailed_view_decrease_quantity);
+
+        // Go to the phone's dialer when user presses the mSupplierPhoneTextView.
+        // Code found here https://stackoverflow.com/questions/6226699/how-to-make-text-view-
+        // clickable-in-android
+        // Author atul yadav on 3 June 2011 and Author Niranj Patel on 3 June 2011
+        // and here https://www.programcreek.com/java-api-examples/?class=android.net.Uri&method=
+        // fromParts
+        // Author and date unknown
+        mSupplierPhoneTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL,
+                            Uri.fromParts("tel", supplierPhone, null));
+                    startActivity(callIntent);
+                } catch (ActivityNotFoundException activityException) {
+                    Log.e("dialing-example", "call: Failed", activityException);
+                }
+            }
+        });
     }
 
     @Override
@@ -113,10 +140,11 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu.
         switch (item.getItemId()) {
-            // Respond to a click on the "Save" menu option.
+            // Respond to a click on the "Edit" menu option.
             case R.id.action_edit:
                 // Create new intent to go to {@link EditorActivity}.
-                Intent intent = new Intent(DetailedViewActivity.this, EditorActivity.class);
+                Intent intent = new Intent
+                        (DetailedViewActivity.this, EditorActivity.class);
                 // Send the data for the URI with the intent.
                 intent.setData(mCurrentBookUri);
                 // Launch the {@link EditorActivity} to display the data for the current book.
@@ -133,7 +161,7 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        // Since the editor shows all book attributes, define a projection that contains
+        // Since the detailed view shows all book attributes, define a projection that contains
         // all columns from the book table.
         String[] projection = new String[]{
                 BookEntry._ID,
@@ -150,7 +178,7 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
                 projection,                   // The columns to include int he resulting cursor.
                 null,                // No selection clause.
                 null,            // No selection arguments.
-                null);              // Defualt sort order.
+                null);              // Default sort order.
     }
 
     /**
@@ -172,7 +200,7 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Cancel" button, so dismiss the dialog and continue editing.
+                // User clicked the "Cancel" button, so dismiss the dialog and continue viewing.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -219,17 +247,22 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
         if (cursor.moveToFirst()) {
             // Find and read the book attributes from the Cursor for the current book.
             String name = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME));
-            String genre = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_GENRE));
+            int genre = cursor.getInt(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_GENRE));
             double price = cursor.getDouble(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE));
-            String supplierName = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME));
-            String supplierPhone = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE));
-            final int quantity = cursor.getInt(cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_QUANTITY));
+            String supplierName = cursor.getString(cursor.getColumnIndex
+                    (BookEntry.COLUMN_PRODUCT_SUPPLIER_NAME));
+            supplierPhone = cursor.getString(cursor.getColumnIndex
+                    (BookEntry.COLUMN_PRODUCT_SUPPLIER_PHONE));
+            final int quantity = cursor.getInt(cursor.getColumnIndex
+                    (BookEntry.COLUMN_PRODUCT_QUANTITY));
             final int id = cursor.getInt(cursor.getColumnIndex(BookEntry._ID));
 
+            // Set the app bar title to the name of the book.
             setTitle(name);
 
             // Context initialised for increase and decrease buttons to work.
-            // Solution foun here - https://www.zidsworld.com/android-tutorials/how-to-fix-cannot-resolve-symbol-context-in-java-android/
+            // Solution foun here - https://www.zidsworld.com/android-tutorials/how-to-fix-cannot-
+            // resolve-symbol-context-in-java-android/
             // Author admin on 21 Feb 2018
             final Context context = this;
 
@@ -240,12 +273,36 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
             NumberFormat format = NumberFormat.getCurrencyInstance();
 
             // Update the views on the screen with the values from the database.
-            mBookNameTextView.setText(name);
-            mGenreTextView.setText(genre);
             mPriceTextView.setText(format.format(Double.valueOf(price)));
             mQuantityTextView.setText(Integer.toString(quantity));
             mSupplierNameTextView.setText(supplierName);
             mSupplierPhoneTextView.setText(supplierPhone);
+
+            switch (genre) {
+                case 1:
+                    mGenreTextView.setText(R.string.genre_fantasy);
+                    break;
+                case 2:
+                    mGenreTextView.setText(R.string.genre_sci_fi);
+                    break;
+                case 3:
+                    mGenreTextView.setText(R.string.genre_mystery);
+                    break;
+                case 4:
+                    mGenreTextView.setText(R.string.genre_romance);
+                    break;
+                case 5:
+                    mGenreTextView.setText(R.string.genre_horror);
+                    break;
+                case 6:
+                    mGenreTextView.setText(R.string.genre_action_and_adventure);
+                    break;
+                case 7:
+                    mGenreTextView.setText(R.string.genre_drama);
+                    break;
+                default:
+                    mGenreTextView.setText(R.string.genre_unknown);
+            }
 
             mIncreaseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -263,7 +320,8 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
                     // This points to which column needs changing.
                     String[] selectionArgs = new String[]{String.valueOf(id)};
                     //This updates the database via the content resolver.
-                    context.getContentResolver().update(currentBook, values, selection, selectionArgs);
+                    context.getContentResolver().update
+                            (currentBook, values, selection, selectionArgs);
 
                 }
             });
@@ -273,7 +331,8 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
                 public void onClick(View v) {
                     // If there is no more stock display toast message else decrease quantity by 1.
                     if (quantity == 0) {
-                        Toast.makeText(context, R.string.no_stock, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.no_stock,
+                                Toast.LENGTH_SHORT).show();
                     } else {
                         // This decreases the items' stock quantity.
                         int bookQuantity = quantity - 1;
@@ -288,7 +347,8 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
                         // This points to which column needs changing.
                         String[] selectionArgs = new String[]{String.valueOf(id)};
                         //This updates the database via the content resolver.
-                        context.getContentResolver().update(currentBook, values, selection, selectionArgs);
+                        context.getContentResolver().update
+                                (currentBook, values, selection, selectionArgs);
                     }
                 }
             });
@@ -299,6 +359,4 @@ public class DetailedViewActivity extends AppCompatActivity implements LoaderMan
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
-
-    // TODO: add a phone supplier intent
 }

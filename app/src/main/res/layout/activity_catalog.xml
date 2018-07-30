@@ -31,26 +31,15 @@
 
         <TextView
             android:id="@+id/empty_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CatalogEmptyViewTitleTextStyle"
             android:layout_below="@+id/empty_bookshelf_image"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif-medium"
-            android:paddingTop="@dimen/padding_all_small_16dp"
-            android:text="@string/empty_view_title_text"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:text="@string/empty_view_title_text" />
 
         <TextView
             android:id="@+id/empty_subtitle_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CatalogEmptyViewInfoTextStyle"
             android:layout_below="@id/empty_title_text"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="sans-serif"
-            android:paddingTop="@dimen/padding_all_small_16dp"
-            android:text="@string/empty_view_subtitle_text"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#A2AAB0"/>
+            android:text="@string/empty_view_subtitle_text" />
     </RelativeLayout>
 
     <!-- Floating Action Button -->
@@ -60,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/margin_catalog_fab_16dp"
+        android:layout_margin="@dimen/margin_all_16dp"
         android:src="@drawable/baseline_add_circle_24"/>
 
 </RelativeLayout>

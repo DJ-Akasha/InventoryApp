@@ -38,13 +38,13 @@
     <!-- Label for price information in the editor [CHAR LIMIT=30] -->
     <string name="category_price">Price</string>
 
-    <!-- Label for price information in the editor [CHAR LIMIT=30] -->
+    <!-- Label for quantity information in the editor [CHAR LIMIT=30] -->
     <string name="category_quantity">Quantity</string>
 
     <!-- Label for supplier information in the editor [CHAR LIMIT=30] -->
     <string name="category_supplier">Supplier Information</string>
 
-    <!-- Label for dropdown menu option if the book's genre is unknown [CHAR LIMIT=20] -->
+    <!-- Label for dropdown menu option if the book's genre is Unknown [CHAR LIMIT=20] -->
     <string name="genre_unknown">Unknown</string>
 
     <!-- Label for dropdown menu option if the book genre is Science Fiction [CHAR LIMIT=20] -->
@@ -83,7 +83,7 @@
     <!-- Text hint for supplier name field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_supplier_name">Supplier Name</string>
 
-    <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
+    <!-- Text hint for supplier phone field in the editor [CHAR LIMIT=30] -->
     <string name="hint_book_supplier_phone">Phone Number</string>
 
     <!-- Toast message in editor when new book has been successfully inserted [CHAR LIMIT=NONE] -->
@@ -92,10 +92,10 @@
     <!-- Toast message in editor when new book has failed to be inserted [CHAR LIMIT=NONE] -->
     <string name="editor_insert_book_failed">Error with saving book</string>
 
-    <!-- Toast message in editor when new book has been successfully inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new book has been successfully updated [CHAR LIMIT=NONE] -->
     <string name="editor_update_book_successful">Book updated</string>
 
-    <!-- Toast message in editor when new book has failed to be inserted [CHAR LIMIT=NONE] -->
+    <!-- Toast message in editor when new book has failed to be updated [CHAR LIMIT=NONE] -->
     <string name="editor_update_book_failed">Error with updating book</string>
 
     <!-- Toast message in editor when current book was successfully deleted [CHAR LIMIT=NONE] -->
@@ -128,20 +128,20 @@
     <!-- Dialog button text for the option to discard a user's changes [CHAR LIMIT=20] -->
     <string name="discard">Discard</string>
 
-    <!-- Dialog button text for the option to keep editing the current pet [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to keep editing the current book [CHAR LIMIT=20] -->
     <string name="keep_editing">Keep Editing</string>
 
-    <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
-    <string name="delete_dialog_msg">Delete this book?</string>
+    <!-- Dialog message to ask the user to confirm deleting the current book [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Delete this book? This cannot be undone.</string>
 
-    <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to confirm deleting the current book [CHAR LIMIT=20] -->
     <string name="delete">Delete</string>
 
-    <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
+    <!-- Dialog button text for the option to cancel deletion of the current book [CHAR LIMIT=20] -->
     <string name="cancel">Cancel</string>
 
     <!-- Text for the quantity in stock [CHAR LIMIT=20] -->
-    <string name="in_stock">In Stock</string>
+    <string name="in_stock">in Stock</string>
 
     <!-- Text for the sale button [CHAR LIMIT=20] -->
     <string name="sale_button">Sale</string>

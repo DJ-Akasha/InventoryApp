@@ -4,36 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/padding_all_small_16dp"
+    android:padding="@dimen/padding_all_medium_16dp"
     tools:context=".DetailedViewActivity">
-
-
-    <!-- Book name category -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            style="@style/CategoryStyle"
-            android:text="@string/category_book" />
-
-        <!-- Input fields -->
-        <LinearLayout
-            android:layout_width="@dimen/width_editor_0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/padding_editor_micro_4dp">
-
-            <!-- Book Name field -->
-            <TextView
-                android:id="@+id/detailed_view_book_name"
-                style="@style/EditorFieldStyle"
-                tools:text="@string/hint_book_name" />
-        </LinearLayout>
-    </LinearLayout>
 
     <!-- Genre category -->
     <LinearLayout
@@ -58,11 +30,8 @@
             <!-- Spinner Genre -->
             <TextView
                 android:id="@+id/detailed_view_spinner_genre"
-                style="@style/EditorFieldStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill"
-                android:paddingRight="@dimen/padding_all_small_16dp"
+                style="@style/DetailedViewFieldStyle"
+                android:paddingRight="@dimen/padding_all_medium_16dp"
                 tools:text="@string/hint_book_genre" />
         </LinearLayout>
     </LinearLayout>
@@ -71,6 +40,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_large_50dp"
         android:orientation="horizontal">
 
         <!-- Label -->
@@ -89,7 +59,7 @@
             <!-- Price field -->
             <TextView
                 android:id="@+id/detailed_view_book_price"
-                style="@style/EditorFieldStyle"
+                style="@style/DetailedViewFieldStyle"
                 tools:text="£5.99" />
         </LinearLayout>
     </LinearLayout>
@@ -98,6 +68,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_large_50dp"
         android:orientation="horizontal">
 
         <!-- Label -->
@@ -116,11 +87,11 @@
             <!-- Quantity field -->
             <TextView
                 android:id="@+id/detailed_view_book_quantity"
-                style="@style/EditorFieldStyle"
+                style="@style/DetailedViewFieldStyle"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
-                android:paddingLeft="@dimen/margin_catalog_fab_16dp"
-                android:paddingRight="@dimen/margin_catalog_fab_16dp"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/margin_all_16dp"
                 tools:text="0" />
 
             <!-- Icons found at www.iconfinder.com made by Yannick Lung from the Freecns Cumulus
@@ -129,13 +100,15 @@
                 android:id="@+id/detailed_view_increase_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_catalog_fab_16dp"
+                android:layout_marginLeft="@dimen/margin_all_16dp"
+                android:layout_weight="4"
                 android:src="@drawable/circledplus" />
 
             <ImageButton
                 android:id="@+id/detailed_view_decrease_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:src="@drawable/circledminus" />
         </LinearLayout>
     </LinearLayout>
@@ -144,6 +117,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_large_50dp"
         android:orientation="horizontal">
 
         <!-- Label -->
@@ -162,7 +136,7 @@
             <!-- Supplier Name field -->
             <TextView
                 android:id="@+id/detailed_view_supplier_name"
-                style="@style/EditorFieldStyle"
+                style="@style/DetailedViewFieldStyle"
                 tools:text="@string/hint_book_supplier_name" />
 
             <!-- Supplier Phone Number field
@@ -170,8 +144,7 @@
         icon set -->
             <TextView
                 android:id="@+id/detailed_view_supplier_phone"
-                style="@style/EditorFieldStyle"
-                android:autoLink="phone"
+                style="@style/DetailedViewFieldStyle"
                 android:drawableRight="@drawable/phone"
                 tools:text="0800800800" />
         </LinearLayout>

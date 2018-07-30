@@ -15,12 +15,34 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Style for the title text in the empty view in activity_catalog.xml -->
+    <style name="CatalogEmptyViewTitleTextStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:paddingTop">@dimen/padding_all_medium_16dp</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">@color/textColorPrimaryDark</item>
+    </style>
+
+    <!-- Style for the information text in the empty view in activity_catalog.xml -->
+    <style name="CatalogEmptyViewInfoTextStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:paddingTop">@dimen/padding_all_medium_16dp</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@color/editorColorPrimary</item>
+    </style>
+
     <!-- Style for a category in the editor -->
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">@dimen/width_editor_0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:paddingTop">@dimen/padding_all_small_16dp</item>
+        <item name="android:paddingTop">@dimen/padding_all_medium_16dp</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
@@ -32,34 +54,66 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">@color/textColorPrimaryDark</item>
     </style>
 
-    <!-- Style for the measurement units for an EditText field in the editor -->
-    <style name="EditorUnitsStyle">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:paddingRight">@dimen/padding_all_small_16dp</item>
-        <item name="android:paddingTop">@dimen/padding_all_small_16dp</item>
-        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    <!-- Style for the Spinner field in the editor -->
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/textColorPrimaryDark</item>
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemStyle</item>
     </style>
 
     <!-- Style for the book name field in ListView -->
     <style name="ListViewNameStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">@dimen/margin_all_16dp</item>
+        <item name="android:layout_marginStart">@dimen/margin_all_16dp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">#2B3D4D</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <!-- Style for the book price and quantity field in ListView -->
     <style name="ListViewPriceStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_margin">@dimen/margin_all_16dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-        <item name="android:textColor">#AEB6BD</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- Style for the book price and quantity field in ListView -->
+    <style name="ListViewQuantityStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@color/editorColorPrimary</item>
+    </style>
+
+    <!-- Style for the book price and quantity field in ListView -->
+    <style name="ListViewSaleButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">@dimen/margin_all_16dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_list_quantity_5dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">@color/editorColorPrimaryDark</item>
+    </style>
+
+    <!-- Style for the Text field in the detailed view -->
+    <style name="DetailedViewFieldStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingTop">@dimen/padding_all_small_12dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">@color/textColorPrimaryDark</item>
     </style>
 </resources>
