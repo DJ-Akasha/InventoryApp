@@ -24,12 +24,16 @@ import com.example.android.inventoryapp.data.BookContract.BookEntry;
  * Displays list of books that were entered and stored in the app.
  */
 public class CatalogActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for the book loader */
+    /**
+     * Identifier for the book loader
+     */
     private static final int BOOK_LOADER = 0;
 
-    /** Adapter for the ListView */
+    /**
+     * Adapter for the ListView
+     */
     BookCursorAdapter mCursorAdapter;
 
     @Override
@@ -80,10 +84,10 @@ public class CatalogActivity extends AppCompatActivity implements
         });
 
         // Kick off the loader.
-        getLoaderManager().initLoader(BOOK_LOADER,null, this);
+        getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 
-    private void insertBook () {
+    private void insertBook() {
 
         // Create a ContentValues object where column names are the keys,
         // and Wyrd Sisters book product details are the values.
@@ -124,7 +128,7 @@ public class CatalogActivity extends AppCompatActivity implements
             case R.id.action_insert_dummy_data:
                 insertBook();
                 return true;
-                // Respond to a click on the "Delete all entries" menu option.
+            // Respond to a click on the "Delete all entries" menu option.
             case R.id.action_delete_all_entries:
                 // Delete all books from the database.
                 deleteAllBooks();

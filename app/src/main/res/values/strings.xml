@@ -149,4 +149,9 @@
     <!-- Text for the Toast Message no stock left [CHAR LIMIT=30] -->
     <string name="no_stock">No Stock Left - Contact Supplier </string>
 
+    <!-- Text for the Content Descriptions [CHAR LIMIT=NONE] -->
+    <string name="bookshelf">Three books on a shelf</string>
+    <string name="plus">A plus sign</string>
+    <string name="minus">A minus sign</string>
+
 </resources>
